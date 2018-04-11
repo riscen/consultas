@@ -1,0 +1,38 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'CSS/estiloRango.css' %}">
+    <div class="container">
+        <h2>Materias</h2>
+        <b>Total materias:</b> {{ total }}
+        <br>
+        <b>Se muestran las materias del</b> {{ ant_sup }} <b>al</b> {{ sup }}
+        <br>
+        <a class="izq" href="{% url 'consultas:mostrarMaterias' ant_sup %}">Anteriores 100</a>
+        <a class="der" href="{% url 'consultas:mostrarMaterias' sig_sup %}">Siguientes 100</a>
+        <br>
+        <table class="table table-condense">
+            <thead>
+                <th>Materia</th>
+                <th>Departamento</th>
+                <th>Créditos</th>
+            </thead>
+            <tbody>
+                {% if materias %}
+                    {% for materia in materias %}
+                        <tr>
+                            <td><a href="/consultas/materia/{{ materia.id }}/">{{ materia.nombre_materia }}</a></td>
+                            <td>{{ materia.departamento }}</td>
+                            <td>{{ materia.creditos }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                <h2>No hay materias disponibles.</h2>
+                {% endif %}
+            </tbody>
+        </table>
+        <a class="izq" href="{% url 'consultas:mostrarMaterias' ant_sup %}">Anteriores 100</a>
+        <a class="der" href="{% url 'consultas:mostrarMaterias' sig_sup %}">Siguientes 100</a>
+        <br>
+    </div>
+{% endblock %}

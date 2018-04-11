@@ -1,0 +1,74 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'CSS/estiloInfo.css' %}">
+<div class="container">
+    <h2>Información del curso {{ nrc }}</h2>
+    <div id="info">
+        <b>NRC:</b> {{ nrc }}
+        <br>
+        <b>Sección:</b> {{ seccion }}
+        <br>
+        <b>Profesor:</b> <a href="/consultas/profesor/{{ id_profesor }}/">{{ profesor }}</a>
+        <br>
+        <b>Estatus:</b> {{ estatus }}
+        <br>
+        <b>Cupos:</b> {{ cupos }}
+        <br>
+        <b>Ocupados:</b> {{ ocupados }}
+        <br>
+        <b>Disponibles</b> {{ disponibles }}
+        <br>
+        <h2>Información de la materia</h2>
+        <br>
+        <b>Clave:</b> <a href="/consultas/materia/{{ id_materia }}/">{{ clave }}</a>
+        <br>
+        <b>Materia:</b> <a href="/consultas/materia/{{ id_materia }}/">{{ materia }}</a>
+        <br>
+        <b>Créditos:</b> {{ creditos }}
+        <br>
+        <b>Departamento:</b> {{ depto }}
+        <br>
+        <b>Área</b> {{ area }}
+        <br>
+    </div>
+    <div id="cursos">
+        <table class="table table-striped">
+            <thead>
+            <th>Horas</th>
+            <th>Días</th>
+            <th>Aula</th>
+            </thead>
+            {% for ch in cursoHorario %}
+            <tr>
+                <td>{{ ch.id_hora }}</td>
+                <td>{{ ch.id_horario }}</td>
+                <td>{{ ch.id_aula }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="container">
+    {% if sesion_iniciada %}
+    <h2>Registrar curso</h2>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <form role="form" action="{% url 'consultas:registrarCurso' nrc %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label><b>Registrar en carrera:</b></label>
+            <select id="id_carreras" name="carrera">
+                {% for carrera in carreras %}
+                <option value="{{ carrera.id }}">{{ carrera }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn">Registrar curso</button>
+        </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

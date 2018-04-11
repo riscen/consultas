@@ -1,0 +1,10 @@
+.izq {
+    float: left;
+    width: 45%;
+    text-align: right;
+}
+
+.der {
+    float: right;
+    width: 45%;
+}

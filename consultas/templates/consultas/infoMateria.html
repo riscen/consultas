@@ -1,0 +1,49 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'CSS/estiloInfo.css' %}">
+    <div class="container">
+        <h2>Información de la materia {{ materia.clave }}</h2>
+        <div id="info">
+            <br>
+            <b>Clave:</b> {{ materia.clave }}
+            <br>
+            <b>Materia:</b> {{ materia.nombre_materia }}
+            <br>
+            <b>Créditos:</b> {{ materia.creditos }}
+            <br>
+            <b>Horas teoría:</b> {{ materia.hrs_teoria }}
+            <br>
+            <b>Horas laboratorio:</b> {{ materia.hrs_lab }}
+            <br>
+            <b>Departamento:</b> {{ materia.id_departamento.nombre_departamento }}
+            <br>
+        </div>
+        <div id="cursos">
+            <table class="table table-striped">
+                <thead>
+                    <th>NRC</th>
+                    <th>Clave</th>
+                    <th>Sección</th>
+                    <th>Profesor</th>
+                    <th>Área</th>
+                    <th>Semestre</th>
+                    <th>Estatus</th>
+                </thead>
+                <tbody>
+                    {% for curso in cursos %}
+                        <tr>
+                            <td><a href="/consultas/curso/{{ curso.nrc }}/">{{ curso.nrc }}</a></td>
+                            <td>{{ curso.clave }}</td>
+                            <td>{{ curso.seccion }}</td>
+                            <td><a href="/consultas/profesor/{{ curso.id_profesor.id }}/">{{ curso.profesor }}</a></td>
+                            <td>{{ curso.area }}</td>
+                            <td>{{ curso.semestre }}</td>
+                            <td>{{ curso.estatus }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

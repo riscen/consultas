@@ -1,0 +1,70 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+    <div class="container">
+        <h2>Consultas</h2>
+        <form>
+            {% csrf_token %}
+            {{ formEdificio }}
+            <input id="boton_cargar" class="btn" type="submit" value="Cargar"/>
+        </form>
+        <br>
+        <table class="table table-bordered" id="tablaCursos">{{ tabla }}</table>
+        <script language="JavaScript" type="text/javascript">
+            $(document).ready(function(){
+                $("#id_edificio").on("change", dameAulas);
+            });
+
+            function dameAulas(){
+                var idEdificio = $("#id_edificio").val();
+                if(idEdificio){
+                    $("#id_aula").html("");
+                    $("#id_calendario").html("");
+                    var request = $.ajax({
+                        type: "GET",
+                        url: "{% url 'consultas:dameAulas' %}",
+                        data: {
+                            "id_edificio": idEdificio
+                            },
+                    });
+                    request.done(function(response){
+                        $("#id_aula").html(response.aulas);
+                        $("#id_aula").trigger("change");
+                        $("#id_calendario").html(response.semestres);
+                        $("#id_calendario").trigger("change");
+                    });
+                }
+                else{
+                    $("#id_aula").html("<option value='' selected='selected'>---------</option>");
+                    $("#id_aula").trigger("change");
+                    $("#id_calendario").html("<option value='' selected='selected'>---------</option>");
+                    $("#id_calendario").trigger("change");
+                }
+            }
+            $(document).ready(function(){
+                $("#boton_cargar").click(function(){
+                    var idEdificio = $("#id_edificio").val();
+                    var idAula = $("#id_aula").val();
+                    var idCalendario = $("#id_calendario").val();
+                    if(idEdificio && idAula && idCalendario){
+                        var request = $.ajax({
+                            type: "GET",
+                            url: "{% url 'consultas:cargarCursos' %}",
+                            data: {
+                                "id_edificio": idEdificio,
+                                "id_aula": idAula,
+                                "id_calendario": idCalendario
+                            },
+                        });
+                        request.done(function(response){
+                            $("#tablaCursos").html(response.cursos);
+                        });
+                    }
+                    else{
+                        $("#tablaCursos").html("<th>Elemento no válido</th>");
+                    }
+                    return false;
+                });
+            });
+        </script>
+    </div>
+{% endblock %}

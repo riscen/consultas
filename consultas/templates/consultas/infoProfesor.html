@@ -1,0 +1,35 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'CSS/estiloInfo.css' %}">
+    <div class="container">
+        <h2>Info profesor</h2>
+        <div id="info">
+            <b>Nombre:</b> {{ profesor.apellidos }}, {{ profesor.nombres }}
+            <br>
+            <b>Código:</b> {{ profesor.codigo }}
+            <br>
+            <b>Carga horaria:</b> {{ cargaProfesor }} horas
+        </div>
+        <div id="cursos">
+            <table class="table">
+                <thead>
+                    <th>NRC</th>
+                    <th>Materia</th>
+                    <th>Horas</th>
+                    <th>Días</th>
+                    <th>Aula</th>
+                </thead>
+                {% for curso in cursos %}
+                    <tr>
+                        <td><a href="/consultas/curso/{{ curso.id_curso.nrc }}/"> {{ curso.id_curso.nrc }}</a></td>
+                        <td><a href="/consultas/materia/{{ curso.id_curso.id_materia.id }}/">{{ curso.id_curso.id_materia.nombre_materia }}</a></td>
+                        <td>{{ curso.id_hora }}</td>
+                        <td>{{ curso.id_horario }}</td>
+                        <td>{{ curso.id_aula }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

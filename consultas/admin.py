@@ -1,0 +1,20 @@
+from django.contrib import admin
+from .models import *
+
+admin.site.register(Edificio)
+admin.site.register(Aula)
+admin.site.register(Area)
+admin.site.register(Profesor)
+admin.site.register(Horario)
+admin.site.register(Hora)
+admin.site.register(Departamento)
+admin.site.register(Semestre)
+admin.site.register(Nivel)
+admin.site.register(Materia)
+admin.site.register(Nivel_Materia)
+admin.site.register(Materia_Area)
+admin.site.register(Curso)
+admin.site.register(Curso_Horario)
+admin.site.register(Carrera)
+admin.site.register(Curso_Carrera)
+admin.site.register(Materia_Carrera)

@@ -1,0 +1,44 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'CSS/estiloRango.css' %}">
+<div class="container">
+    <h2>Cursos</h2>
+    <label><b>Total cursos:</b></label> <label id="totalCursos">{{ total }}</label>
+    <br>
+    <b>Se muestran los cursos del</b> {{ ant_sup }} <b>al</b> {{ sup }}
+    <br>
+    <a class="izq" href="{% url 'consultas:mostrarCursosDisponiblesCarrera' acronimo ant_sup %}">Anteriores 100</a>
+    <a class="der" href="{% url 'consultas:mostrarCursosDisponiblesCarrera' acronimo sig_sup %}">Siguientes 100</a>
+    <br>
+    <table class="table table-condense" id="tablaCursos">
+        <thead>
+        <th>NRC</th>
+        <th>Materia</th>
+        <th>Área</th>
+        <th>Sección</th>
+        <th>Profesor</th>
+        <th>Cupos disponibles</th>
+        </thead>
+        <tbody>
+        {% if cursos %}
+        {% for curso in cursos %}
+        <tr class="{{ curso.clase }}">
+            <td><a href="/consultas/curso/{{ curso.nrc }}/"> {{ curso.nrc }}</a></td>
+            <td><a href="/consultas/materia/{{ curso.id_materia }}/">{{ curso.materia }}</a></td>
+            <td>{{ curso.area.id_area }}</td>
+            <td>{{ curso.seccion }}</td>
+            <td><a href="/consultas/profesor/{{ curso.id_profesor }}/">{{ curso.profesor_apellidos }}, {{ curso.profesor_nombres }}</a></td>
+            <td>{{ curso.disponibles }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <h2>No hay cursos disponibles.</h2>
+        {% endif %}
+        </tbody>
+    </table>
+    <a class="izq" href="{% url 'consultas:mostrarCursosDisponiblesCarrera' acronimo ant_sup %}">Anteriores 100</a>
+    <a class="der" href="{% url 'consultas:mostrarCursosDisponiblesCarrera' acronimo sig_sup %}">Siguientes 100</a>
+    <br>
+</div>
+{% endblock %}

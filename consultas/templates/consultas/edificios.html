@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edificio</title>
+    <script src="funcionesConsultas.js"></script>
+</head>
+<body>
+    <form action={% url 'consultas:mostrarCursosEdifcio' edificio.id_edificio %}" method="post">
+        {% csrf_token %}
+        {{ formEdificio }}
+        <input type="submit" value="Cargar">
+    </form>
+</body>
+</html>

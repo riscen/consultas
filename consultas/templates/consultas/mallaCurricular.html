@@ -1,0 +1,42 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Malla curricular</h2>
+    <br>
+    <label><b>Carreras:</b></label>
+    <form role="form" action="{% url 'consultas:mostrarMalla' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <select id="id_carreras" name="carrera">
+            {% for carrera in carreras %}
+            <option value="{{ carrera.id }}" {% if carrera.acronimo == acronimo %}selected{% endif %}>{{ carrera }}</option>
+            {% endfor %}
+        </select>
+        <input class="btn" id="boton_cargar" type="submit" value="Cargar"/>
+        <br>
+    </form>
+    {% if acronimo != "N" %}
+    <table class="table table-condense">
+        <thead>
+        <th>Clave</th>
+        <th>Materia</th>
+        <th>Departamento</th>
+        <th>Créditos</th>
+        </thead>
+        <tbody>
+        {% if materias %}
+        {% for materia in materias %}
+        <tr>
+            <td><a href="/consultas/materia/{{ materia.id }}/">{{ materia.clave }}</a></td>
+            <td><a href="/consultas/materia/{{ materia.id }}/">{{ materia.nombre_materia }}</a></td>
+            <td>{{ materia.id_departamento.nombre_departamento }}</td>
+            <td>{{ materia.creditos }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <h2>No hay materias disponibles.</h2>
+        {% endif %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'consultas/base.html' %}
+{% block body %}
+    <div class="container">
+        <h2>Profesores</h2>
+        <form>
+            Filtros
+            <br>
+            <select id="id_filtro">
+                <option value="todos">Todos</option>
+                <option value="sobrecarga">Profesores con carga horaria mayor a 40 horas</option>
+            </select>
+            <input id="boton_cargar" class="btn" type="submit" value="Cargar"/>
+        </form>
+        <table class="table table-condensed" id="tablaProfesores">
+            <thead>
+                <th>Código</th>
+                <th>Apellidos</th>
+                <th>Nombres</th>
+                <th>Carga horaria</th>
+            </thead>
+            <tbody>
+                {% for profesor in infoProfesor %}
+                    {% if profesor.codigo != 0 %}
+                        <tr id="{{ profesor.id_fila }}">
+                        <td><a href="/consultas/profesor/{{ profesor.id }}/">
+                            {{ profesor.codigo }} </a></td>
+                        <td>{{ profesor.apellidos }}</td>
+                        <td>{{ profesor.nombres }}</td>
+                        <td>{{ profesor.carga }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <script language="JavaScript" type="text/javascript">
+            $(document).ready(function(){
+                $("#boton_cargar").click(function(){
+                    var filtro = $("#id_filtro").val();
+                    if(filtro){
+                        var request = $.ajax({
+                            type: "GET",
+                            url: "{% url 'consultas:cargarProfesores' %}",
+                            data: {
+                                "filtro": filtro
+                                },
+                        });
+                        request.done(function(response){
+                            $("#tablaProfesores").html(response.profesores);
+                        });
+                    }
+                    else{
+                        $("#tablaProfesores").html("<th>No hay profesores</th>");
+                    }
+                    return false;
+                });
+            });
+        </script>
+    </div>
+{% endblock %}
